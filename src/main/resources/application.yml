@@ -1,0 +1,63 @@
+server:
+  port: 9098
+  tomcat:
+    uri-encoding: UTF-8 # tomcat的URI编码
+    threads:
+      max: 1000     # tomcat最大线程数，默认为200
+      min-spare: 30 # Tomcat启动初始化的线程数，默认值25
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  shutdown: graceful # 开启优雅停机模式
+
+# log详细配置请查看 logback-spring.xml, springboot可自动加载 resources/logback-spring.xml
+logging:
+  level:
+    root: INFO
+
+spring:
+  application:
+    name: subscriber-starter-test
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 50MB
+      max-request-size: 200MB
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  lifecycle:
+    timeout-per-shutdown-phase: 30s # 优雅停机模式，设置缓冲时间，最大关机等待时间
+
+guzt:
+  mq:
+    amqp:
+      rabbitmq:
+        enable: true
+        user-name: admin
+        password: Admin123
+        host: 192.168.1.1
+        port: 5672
+        virtualHost: /
+        subscribers:
+          - {beanName: mySubscriberService, exchangeName: EX_BOOTTEST_DEV, groupId: QUE_BOOTTEST_DEV, maxRetryCount: 3, retryConsumIntervalSeconds: 5}
+          - {beanName: mySubscriber2Service, exchangeName: EX_BOOTTEST_DEV, groupId: QUE_BOOTTEST2_DEV, maxRetryCount: 5, retryConsumIntervalSeconds: 10}
+          - {beanName: myXaSubscriberService, exchangeName: EX_XA_BOOTTEST_DEV, groupId: QUE_XA_BOOTTEST_DEV, maxRetryCount: 4, retryConsumIntervalSeconds: 10}
+        publishers:
+          - {beanName: myPublisherService, exchangeName: EX_BOOTTEST_DEV, groupId: YOU_CAN_IGNORE}
+          - {beanName: myXaPublisherService, exchangeName: EX_XA_BOOTTEST_DEV, groupId: YOU_CAN_IGNORE, messageType: TRANSACTION, checkImmunityTimeInSeconds: 30, checkImmunityMaxCount: 4 }
+
+
+## springboot 健康检查
+management:
+  endpoint:
+    shutdown:
+      enabled: false
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: "*"
