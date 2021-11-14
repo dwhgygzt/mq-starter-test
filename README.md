@@ -169,7 +169,7 @@ public interface XaTopicLocalTransactionExecuter {
 
 
 测试参数 tag传递COMMIT 模拟正常成功情况
-![image](pic/xa001.png)
+![image](pic/xa001.PNG)
 ```text
 2021-11-14 17:41:29.457  INFO 1016 --- [nio-9098-exec-5] c.g.s.m.s.i.a.AmqpXaRabbitMqPublisher    : 【MQ】AmqpXaRabbitMqPublisher[myXaPublisherService] , exchangeName[EX_XA_BOOTTEST_DEV] start...
 2021-11-14 17:41:29.583  INFO 1016 --- [nio-9098-exec-5] c.g.s.m.s.i.a.AmqpXaRabbitMqPublisher    : 【MQ】AmqpRabbitMqSubscriber[myXaPublisherService_xa_check] , exchangeName[xa-check-letter-QUE-EX_XA_BOOTTEST_DEV]   started
